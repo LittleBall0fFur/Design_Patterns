@@ -2,6 +2,7 @@ package com.nhlstenden.designpatterns;
 
 import com.nhlstenden.designpatterns.graphics.Canvas;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -16,7 +17,7 @@ public class App extends Application {
 
         Canvas canvas = new Canvas(1485, 750);
         root.getChildren().add(canvas);
-
+        canvas.CreateShape('r',new Point2D(100,100), 500, 500);
         Scene scene = new Scene(root, Color.BLACK);
         stage.setScene(scene);
 

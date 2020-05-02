@@ -3,8 +3,6 @@ package com.nhlstenden.designpatterns.graphics;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -30,13 +28,6 @@ public class Canvas extends Region {
     }
 
     public void CreateShape(char type, Point2D position, int width, int height){
-        switch(type){
-            case 'e':
-                break;
-            case 'r':
-                Rectangle rect = new Rectangle(position, width, height);
-                //root.getChildren.add(r);
-                break;
-        }
+        new Rectangle(gc, position, width, height, Color.BLUE, null);
     }
 }
