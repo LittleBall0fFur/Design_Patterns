@@ -13,9 +13,13 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
         // TODO: Implement.
         Group root = new Group();
-        Scene s = new Scene(root, 1535, 800, Color.BLACK);
-        Canvas canvas = new Canvas(1485, 750, root);
-        stage.setScene(s);
+
+        Canvas canvas = new Canvas(1485, 750);
+        root.getChildren().add(canvas);
+
+        Scene scene = new Scene(root, Color.BLACK);
+        stage.setScene(scene);
+
         stage.setMaximized(true);
         stage.show();
     }
