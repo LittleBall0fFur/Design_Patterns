@@ -1,21 +1,25 @@
+package com.nhlstenden.designpatterns.graphics;
+
 import javafx.scene.Scene;
 
 import java.util.List;
 
 public class Canvas {
+
     private int width= 0, height = 0;
-    private Scene s;
+    private Scene scene;
     private List<Object> children;
 
-    Canvas(int width, int height){
+    public Canvas(int width, int height){
 
     }
 
-    void AddChild(BasicShape entity){
+    public void addChild(BasicShape entity) {
         children.add(entity);
     }
 
-    void removeChild(BasicShape entity){
+    public void removeChild(BasicShape entity) {
         children.remove(entity);
     }
+
 }
