@@ -1,5 +1,6 @@
 package com.nhlstenden.designpatterns.graphics;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,5 +25,16 @@ public class Canvas {
         gc.fillRect(50, 50, width, height);
 
         root.getChildren().add(canvas);
+    }
+
+    public void CreateShape(char type, Point2D position, int width, int height){
+        switch(type){
+            case 'e':
+                break;
+            case 'r':
+                Rectangle rect = new Rectangle(position, width, height);
+                root.getChildren.add(r);
+                break;
+        }
     }
 }

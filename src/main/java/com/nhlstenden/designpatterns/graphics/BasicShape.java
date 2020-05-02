@@ -2,8 +2,9 @@ package com.nhlstenden.designpatterns.graphics;
 
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
+import javafx.scene.shape.*;
 
-public abstract class BasicShape {
+public abstract class BasicShape extends Shape {
 
     private BoundingBox bounds;
 
