@@ -1,4 +1,4 @@
-package com.nhlstenden.designpatterns.graphics;
+package com.nhlstenden.designpatterns.graphics.shapes;
 
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;

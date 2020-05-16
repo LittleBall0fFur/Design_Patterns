@@ -1,8 +1,7 @@
-package com.nhlstenden.designpatterns.graphics;
+package com.nhlstenden.designpatterns.graphics.shapes;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
 public class Rectangle extends BasicShape {

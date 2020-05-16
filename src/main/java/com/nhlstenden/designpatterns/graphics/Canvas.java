@@ -1,8 +1,8 @@
 package com.nhlstenden.designpatterns.graphics;
 
 
+import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
