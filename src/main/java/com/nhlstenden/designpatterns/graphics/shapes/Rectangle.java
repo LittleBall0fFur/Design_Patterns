@@ -1,14 +1,37 @@
 package com.nhlstenden.designpatterns.graphics.shapes;
 
+import com.nhlstenden.designpatterns.graphics.Drawable;
+import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Rectangle extends BasicShape {
+public class Rectangle extends Shape {
 
-    public Rectangle(GraphicsContext gc, Point2D center, double width, double height, Color fill_color, Color stroke_color) {
-        super(center, width, height);
-        gc.setFill(fill_color);
-        gc.fillRect(center.getX(), center.getY(), width, height);
+    private static class RectangleDrawingStrategy implements DrawingStrategy {
+
+        @Override
+        public void execute(GraphicsContext context, Drawable drawable) {
+            try {
+                tryExecute(context, drawable);
+            } catch (ClassCastException exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        private void tryExecute(GraphicsContext context, Drawable drawable) {
+            Rectangle rectangle = (Rectangle) drawable;
+            Point2D position = rectangle.getPosition();
+
+            // TODO: Add color customisation. Draws Rectangle in red for now.
+            context.setFill(Color.RED);
+            context.fillRect(position.getX(), position.getY(), rectangle.getWidth(), rectangle.getHeight());
+        }
+
     }
+
+    public Rectangle(Point2D position, double width, double height) {
+        super(position, width, height, new RectangleDrawingStrategy());
+    }
+
 }
