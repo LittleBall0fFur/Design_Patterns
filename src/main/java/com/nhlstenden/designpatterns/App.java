@@ -1,6 +1,8 @@
 package com.nhlstenden.designpatterns;
 
 import com.nhlstenden.designpatterns.graphics.Canvas;
+import com.nhlstenden.designpatterns.graphics.shapes.Ellipse;
+import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -17,7 +19,12 @@ public class App extends Application {
 
         Canvas canvas = new Canvas(1485, 750);
         root.getChildren().add(canvas);
-        canvas.CreateShape('r',new Point2D(100,100), 500, 500);
+
+        canvas.addShapes(new Rectangle(new Point2D(64, 64), 256, 256),
+                         new Ellipse(new Point2D(128, 128), 512, 512));
+
+        canvas.present();
+
         Scene scene = new Scene(root, Color.BLACK);
         stage.setScene(scene);
 
