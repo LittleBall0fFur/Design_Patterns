@@ -11,6 +11,16 @@ public class Ellipse extends Shape {
 
     private static class EllipseDrawingStrategy implements DrawingStrategy {
 
+        private static final EllipseDrawingStrategy __instance__ = new EllipseDrawingStrategy();
+
+        private EllipseDrawingStrategy() {
+            // Empty. Made private in favor of the Singleton Pattern.
+        }
+
+        public static EllipseDrawingStrategy getInstance() {
+            return __instance__;
+        }
+
         @Override
         public void execute(GraphicsContext context, Drawable drawable) {
             try {
@@ -32,7 +42,7 @@ public class Ellipse extends Shape {
     }
 
     public Ellipse(Point2D position, double width, double height) {
-        super(position, width, height, new EllipseDrawingStrategy());
+        super(position, width, height, EllipseDrawingStrategy.getInstance());
     }
 
 }

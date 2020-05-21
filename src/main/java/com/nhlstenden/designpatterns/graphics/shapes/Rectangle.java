@@ -10,6 +10,16 @@ public class Rectangle extends Shape {
 
     private static class RectangleDrawingStrategy implements DrawingStrategy {
 
+        private static final RectangleDrawingStrategy __instance__ = new RectangleDrawingStrategy();
+
+        private RectangleDrawingStrategy() {
+            // Empty. Made private in favor of the Singleton Pattern.
+        }
+
+        public static RectangleDrawingStrategy getInstance() {
+            return __instance__;
+        }
+
         @Override
         public void execute(GraphicsContext context, Drawable drawable) {
             try {
@@ -31,7 +41,7 @@ public class Rectangle extends Shape {
     }
 
     public Rectangle(Point2D position, double width, double height) {
-        super(position, width, height, new RectangleDrawingStrategy());
+        super(position, width, height, RectangleDrawingStrategy.getInstance());
     }
 
 }
