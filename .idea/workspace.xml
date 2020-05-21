@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2674dcce-af19-47da-a5bb-22eeaef76ad3" name="Default Changelist" comment="">
-<<<<<<< HEAD
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/UI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/test.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/App.java" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Ellipse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Ellipse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Rectangle.java" afterDir="false" />
->>>>>>> 0f3da34fffd88e4331a49f6c64caead3be82dd7e
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,21 +35,6 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-<<<<<<< HEAD
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-=======
->>>>>>> 0f3da34fffd88e4331a49f6c64caead3be82dd7e
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -99,13 +74,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -123,22 +97,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1589665661312" />
-    <state width="1287" height="282" key="GridCell.Tab.0.bottom" timestamp="1589670129634">
+    <state width="1285" height="282" key="GridCell.Tab.0.bottom" timestamp="1590067527289">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1287" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1589670129634" />
-    <state width="1287" height="282" key="GridCell.Tab.0.center" timestamp="1589670129634">
+    <state width="1285" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1590067527289" />
+    <state width="1285" height="282" key="GridCell.Tab.0.center" timestamp="1590067527288">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1287" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1589670129634" />
-    <state width="1287" height="282" key="GridCell.Tab.0.left" timestamp="1589670129633">
+    <state width="1285" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1590067527288" />
+    <state width="1285" height="282" key="GridCell.Tab.0.left" timestamp="1590067527288">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1287" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1589670129633" />
-    <state width="1287" height="282" key="GridCell.Tab.0.right" timestamp="1589670129634">
+    <state width="1285" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1590067527288" />
+    <state width="1285" height="282" key="GridCell.Tab.0.right" timestamp="1590067527289">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1287" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1589670129634" />
+    <state width="1285" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.-619.1080.1880@0.0.1920.1040" timestamp="1590067527289" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1590054678621">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
