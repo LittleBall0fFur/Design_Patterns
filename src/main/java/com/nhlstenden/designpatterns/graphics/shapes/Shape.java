@@ -20,6 +20,13 @@ public abstract class Shape extends Drawable {
         this.height = height;
     }
 
+    /**
+     * Determines whether a given point lies within this {@code Shape}'s bounds.
+     * @param point The point to check.
+     * @return {@code true} if the point lies within bounds, {@code false} otherwise.
+     */
+    public abstract boolean contains(Point2D point);
+
     public void setPosition(Point2D position) {
         this.position = position;
     }

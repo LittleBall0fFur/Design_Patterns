@@ -5,7 +5,8 @@ import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+
+import static java.lang.Math.pow;
 
 public class Ellipse extends Shape {
 
@@ -43,6 +44,19 @@ public class Ellipse extends Shape {
 
     public Ellipse(Point2D position, double width, double height) {
         super(position, width, height, EllipseDrawingStrategy.getInstance());
+    }
+
+    @Override
+    public boolean contains(Point2D point) {
+        Point2D center = this.getPosition().add(this.getWidth()/2, this.getHeight()/2);
+        Point2D distance = point.subtract(center);
+
+        // Equation determining whether a point lies within an ellipse.
+        // Should the result be greater than 1, then it can be said the given point does not lie within the ellipse.
+        double discriminant = pow(distance.getX(), 2) / pow(this.getWidth()/2, 2)
+                            + pow(distance.getY(), 2) / pow(this.getHeight()/2, 2);
+
+        return discriminant <= 1;
     }
 
 }

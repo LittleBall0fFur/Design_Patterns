@@ -1,8 +1,9 @@
 package com.nhlstenden.designpatterns.graphics;
 
+import com.nhlstenden.designpatterns.graphics.shapes.Shape;
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +32,34 @@ public class Canvas extends Region {
         this.getChildren().add(canvas);
     }
 
-    public void addShapes(Drawable... drawables) {
-        for (Drawable drawable : drawables)
-            addShape(drawable);
+    /**
+     * Returns the first {@code Shape} found at the given position.
+     * @param position The position at which to look for shapes.
+     * @return The {@code Shape} at the given position if found, {@code null} otherwise.
+     */
+    public Shape getShapeAt(Point2D position) {
+        Shape result = null;
+        for (int i = drawables.size()-1; i >= 0; i--) {
+            if (!(drawables.get(i) instanceof Shape))
+                continue;
+
+            Shape current_shape = (Shape) drawables.get(i);
+            if (current_shape.contains(position)) {
+                result = current_shape;
+                break;
+            }
+        }
+
+        return result;
     }
 
-    public void addShape(Drawable drawable) {
-        this.drawables.add(drawable);
+    public void addShapes(Shape... shapes) {
+        for (Shape shape : shapes)
+            addShape(shape);
+    }
+
+    public void addShape(Shape shape) {
+        this.drawables.add(shape);
     }
 
     // TODO: Works for now, but replace with a better way of drawing; Observer Pattern?
