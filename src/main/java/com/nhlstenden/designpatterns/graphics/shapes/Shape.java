@@ -2,10 +2,7 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
-import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
-import javafx.scene.layout.Region;
-import javafx.scene.shape.*;
 
 public abstract class Shape extends Drawable {
 
@@ -49,18 +46,6 @@ public abstract class Shape extends Drawable {
 
     public double getHeight() {
         return height;
-    }
-
-    public void select() {
-
-    }
-
-    public void scale() {
-
-    }
-
-    public void move() {
-
     }
 
 }

@@ -1,6 +1,5 @@
 package com.nhlstenden.designpatterns.graphics;
 
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Drawable {

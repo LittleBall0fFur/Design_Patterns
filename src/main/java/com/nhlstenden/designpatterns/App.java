@@ -7,7 +7,6 @@ import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
