@@ -3,14 +3,19 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 
 public abstract class Shape extends Drawable {
+
+    private Color color;
 
     private Point2D position;
     private double width, height;
 
-    protected Shape(Point2D position, double width, double height, DrawingStrategy drawingStrategy) {
+    protected Shape(Color color, Point2D position, double width, double height, DrawingStrategy drawingStrategy) {
         super(drawingStrategy);
+
+        this.color = color;
 
         this.position = position;
         this.width = width;
@@ -24,6 +29,10 @@ public abstract class Shape extends Drawable {
      */
     public abstract boolean contains(Point2D point);
 
+    public void setColor(Color new_color) {
+        this.color = new_color;
+    }
+
     public void setPosition(Point2D position) {
         this.position = position;
     }
@@ -34,6 +43,10 @@ public abstract class Shape extends Drawable {
 
     public void setHeight(double new_height) {
         this.height = new_height;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public Point2D getPosition() {

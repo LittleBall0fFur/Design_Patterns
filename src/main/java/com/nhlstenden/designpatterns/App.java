@@ -24,8 +24,8 @@ public class App extends Application {
         root.getChildren().add(ui);
         root.getChildren().addAll(ui.getUIChildren());
 
-        canvas.addShapes(new Rectangle(new Point2D(64, 64), 256, 256),
-                         new Ellipse(new Point2D(128, 128), 512, 512));
+        canvas.addShapes(new Rectangle(Color.BLUE, new Point2D(64, 64), 256, 256),
+                         new Ellipse(Color.RED, new Point2D(128, 128), 512, 512));
 
         canvas.present();
 

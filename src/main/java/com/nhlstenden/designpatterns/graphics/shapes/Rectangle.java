@@ -34,14 +34,14 @@ public class Rectangle extends Shape {
             Point2D position = rectangle.getPosition();
 
             // TODO: Add color customisation. Draws Rectangle in red for now.
-            context.setFill(Color.RED);
+            context.setFill(rectangle.getColor());
             context.fillRect(position.getX(), position.getY(), rectangle.getWidth(), rectangle.getHeight());
         }
 
     }
 
-    public Rectangle(Point2D position, double width, double height) {
-        super(position, width, height, RectangleDrawingStrategy.getInstance());
+    public Rectangle(Color color, Point2D position, double width, double height) {
+        super(color, position, width, height, RectangleDrawingStrategy.getInstance());
     }
 
     @Override
