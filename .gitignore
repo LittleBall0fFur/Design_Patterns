@@ -1,4 +1,6 @@
 
+/.idea/workspace.xml
+
 # Exclude output directories
 /out
 /target
