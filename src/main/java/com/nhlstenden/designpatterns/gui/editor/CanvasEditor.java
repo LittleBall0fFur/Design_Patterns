@@ -6,12 +6,13 @@ import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class CanvasEditor extends Scene {
@@ -68,8 +69,11 @@ public class CanvasEditor extends Scene {
     private Color selectedColor = Color.BLUE;
 
     public CanvasEditor(double width, double height) {
-        super(new AnchorPane(), width, height, Color.BLACK);
+        super(new AnchorPane(), width, height);
 
+        this.root.setBackground(new Background(
+                new BackgroundFill(Color.rgb(47, 47, 47), null, null))
+        );
         initCanvas();
         initGUI();
     }
