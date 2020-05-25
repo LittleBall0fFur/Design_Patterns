@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 
 public class CanvasEditor extends Scene {
@@ -69,25 +71,44 @@ public class CanvasEditor extends Scene {
 
     public CanvasEditor(double width, double height) {
         super(new AnchorPane(), width, height, Color.BLACK);
+        this.root.setBackground(new Background(
+                new BackgroundFill(Color.rgb(30, 30, 30), null, null))
+        );
+
+        this.root.prefWidthProperty().bind(this.widthProperty());
+        this.root.prefHeightProperty().bind(this.heightProperty());
 
         initCanvas();
         initGUI();
     }
 
     public CanvasEditor() {
-        super(new AnchorPane());
+        super(new AnchorPane(), Color.BLACK);
+        this.root.setBackground(new Background(
+                new BackgroundFill(Color.rgb(30, 30, 30), null, null))
+        );
+
         initCanvas();
         initGUI();
     }
 
     private void initCanvas() {
         // Create a new Canvas and bind its width and height to the editor.
-        this.canvas = new Canvas(this.getWidth() - 424, this.getHeight() - 324);
-        this.canvas.setTranslateX(24);
-        this.canvas.setTranslateY(24);
+        this.canvas = new Canvas(this.getWidth() - 48, this.getHeight() - 48);
 
-        //this.canvas.prefWidthProperty().bind(this.widthProperty());
-        //this.canvas.prefHeightProperty().bind(this.heightProperty());
+        this.root.setLeftAnchor(this.canvas, 24.0);
+        this.root.setTopAnchor(this.canvas, 24.0);
+
+        // Bind the Canvas' size to the size of the CanvasEditor.
+        this.root.widthProperty().addListener((object, old_width, new_width) -> {
+            this.canvas.resize(new_width.doubleValue() - 48.0, this.canvas.getHeight());
+            this.canvas.present();
+        });
+
+        this.root.heightProperty().addListener((object, old_height, new_height) -> {
+            this.canvas.resize(this.canvas.getWidth(), new_height.doubleValue() - 48.0);
+            this.canvas.present();
+        });
 
         // Hook EditorMode to the Canvas by registering MouseEvent Handlers.
         this.canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -142,12 +163,14 @@ public class CanvasEditor extends Scene {
         }));
 
         Label positionLabel = new Label("");
+        positionLabel.setTextFill(Color.WHITESMOKE);
+        
         this.canvas.addEventHandler(MouseEvent.ANY, event -> {
             positionLabel.setText(String.format("(%.0f, %.0f)", event.getX(), event.getY()));
         });
 
-        this.root.setBottomAnchor(positionLabel, 0.0);
-        this.root.setRightAnchor(positionLabel, 0.0);
+        this.root.setBottomAnchor(positionLabel, 4.0);
+        this.root.setRightAnchor(positionLabel, 4.0);
 
         this.root.getChildren().add(positionLabel);
     }
