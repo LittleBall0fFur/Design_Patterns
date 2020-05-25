@@ -6,7 +6,6 @@ import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
@@ -70,22 +69,19 @@ public class CanvasEditor extends Scene {
     private Color selectedColor = Color.BLUE;
 
     public CanvasEditor(double width, double height) {
-        super(new AnchorPane(), width, height, Color.BLACK);
+        super(new AnchorPane(), width, height);
         this.root.setBackground(new Background(
-                new BackgroundFill(Color.rgb(30, 30, 30), null, null))
+                new BackgroundFill(Color.rgb(47, 47, 47), null, null))
         );
-
-        this.root.prefWidthProperty().bind(this.widthProperty());
-        this.root.prefHeightProperty().bind(this.heightProperty());
 
         initCanvas();
         initGUI();
     }
 
     public CanvasEditor() {
-        super(new AnchorPane(), Color.BLACK);
+        super(new AnchorPane());
         this.root.setBackground(new Background(
-                new BackgroundFill(Color.rgb(30, 30, 30), null, null))
+                new BackgroundFill(Color.rgb(47, 47, 47), null, null))
         );
 
         initCanvas();
