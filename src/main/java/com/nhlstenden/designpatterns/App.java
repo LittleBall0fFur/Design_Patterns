@@ -1,6 +1,6 @@
 package com.nhlstenden.designpatterns;
 
-import com.nhlstenden.designpatterns.graphics.CanvasEditor;
+import com.nhlstenden.designpatterns.gui.editor.CanvasEditor;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.stage.Stage;
@@ -9,9 +9,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        // TODO: Implement.
-        CanvasEditor editor = new CanvasEditor(new Group());
-        stage.setScene(editor.initEditor());
+        CanvasEditor editor = new CanvasEditor(1920, 1080);
+        stage.setScene(editor);
 
         stage.setMaximized(true);
         stage.show();

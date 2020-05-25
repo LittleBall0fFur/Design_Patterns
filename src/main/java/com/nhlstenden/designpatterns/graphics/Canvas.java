@@ -17,9 +17,13 @@ public class Canvas extends Region {
     private List<Drawable> drawables;
 
     public Canvas(double width, double height) {
+        this();
+
         this.setWidth(width);
         this.setHeight(height);
+    }
 
+    public Canvas() {
         this.canvas = new javafx.scene.canvas.Canvas();
         this.context = this.canvas.getGraphicsContext2D();
         this.drawables = new ArrayList<Drawable>();
@@ -31,6 +35,10 @@ public class Canvas extends Region {
         this.clear();
 
         this.getChildren().add(canvas);
+    }
+
+    public Shape getShapeAt(double x, double y) {
+        return this.getShapeAt(new Point2D(x, y));
     }
 
     /**
@@ -54,13 +62,39 @@ public class Canvas extends Region {
         return result;
     }
 
+    public void removeShapeAt(double x, double y) {
+        this.removeShapeAt(new Point2D(x, y));
+    }
+
+    public void removeShapeAt(Point2D position) {
+        for (int i = drawables.size()-1; i >= 0; i--) {
+            if (!(drawables.get(i) instanceof Shape))
+                continue;
+
+            Shape current_shape = (Shape) drawables.get(i);
+            if (current_shape.contains(position)) {
+                drawables.remove(i);
+                break;
+            }
+        }
+
+        // Update the Canvas.
+        this.present();
+    }
+
     public void addShapes(Shape... shapes) {
         for (Shape shape : shapes)
-            addShape(shape);
+            this.drawables.add(shape);
+
+        // Update the Canvas.
+        this.present();
     }
 
     public void addShape(Shape shape) {
         this.drawables.add(shape);
+
+        // Update the Canvas.
+        this.present();
     }
 
     // TODO: Works for now, but replace with a better way of drawing; Observer Pattern?
@@ -73,7 +107,7 @@ public class Canvas extends Region {
 
     private void clear() {
         this.context.setFill(Color.WHITE);
-        this.context.fillRect(24, 24, this.getWidth(), this.getHeight());
+        this.context.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
 
 }

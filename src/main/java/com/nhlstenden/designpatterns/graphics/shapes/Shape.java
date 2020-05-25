@@ -11,6 +11,10 @@ public abstract class Shape extends Drawable {
     private Point2D position;
     private double width, height;
 
+    protected Shape(DrawingStrategy drawingStrategy) {
+        this(Color.BLACK, new Point2D(0, 0), 0.0, 0.0, drawingStrategy);
+    }
+
     protected Shape(Color color, Point2D position, double width, double height, DrawingStrategy drawingStrategy) {
         super(drawingStrategy);
 
@@ -30,6 +34,10 @@ public abstract class Shape extends Drawable {
 
     public void setColor(Color new_color) {
         this.color = new_color;
+    }
+
+    public void setPosition(double x, double y) {
+        this.setPosition(new Point2D(x, y));
     }
 
     public void setPosition(Point2D position) {
@@ -59,5 +67,8 @@ public abstract class Shape extends Drawable {
     public double getHeight() {
         return height;
     }
+
+    @Override
+    public abstract Shape clone();
 
 }

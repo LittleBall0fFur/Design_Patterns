@@ -33,11 +33,14 @@ public class Rectangle extends Shape {
             Rectangle rectangle = (Rectangle) drawable;
             Point2D position = rectangle.getPosition();
 
-            // TODO: Add color customisation. Draws Rectangle in red for now.
             context.setFill(rectangle.getColor());
             context.fillRect(position.getX(), position.getY(), rectangle.getWidth(), rectangle.getHeight());
         }
 
+    }
+
+    public Rectangle() {
+        super(RectangleDrawingStrategy.getInstance());
     }
 
     public Rectangle(Color color, Point2D position, double width, double height) {
@@ -49,6 +52,11 @@ public class Rectangle extends Shape {
         return point.getX() >= this.getPosition().getX() && point.getX() < (this.getPosition().getX()+this.getWidth())
                &&
                point.getY() >= this.getPosition().getY() && point.getY() < (this.getPosition().getY()+this.getHeight());
+    }
+
+    @Override
+    public Rectangle clone() {
+        return new Rectangle(this.getColor(), this.getPosition(), this.getWidth(), this.getHeight());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.nhlstenden.designpatterns.graphics.HUD;
+package com.nhlstenden.designpatterns.gui;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -6,10 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
-public class GUIFactory extends Region {
-    private static double offset;
+public abstract class GUIFactory {
 
-    public GUIFactory(double width, double height) {}
+    private static double offset;
 
     public static Button createButton(String name, EventHandler<MouseEvent> click_event){
         Button button = new Button();
@@ -24,4 +23,5 @@ public class GUIFactory extends Region {
 
         return button;
     }
+
 }

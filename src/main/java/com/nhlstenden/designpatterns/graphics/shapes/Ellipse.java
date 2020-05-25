@@ -35,11 +35,14 @@ public class Ellipse extends Shape {
             Ellipse ellipse = (Ellipse) drawable;
             Point2D position = ellipse.getPosition();
 
-            // TODO: Add color customisation. Draws Ellipse in blue for now.
             context.setFill(ellipse.getColor());
             context.fillOval(position.getX(), position.getY(), ellipse.getWidth(), ellipse.getHeight());
         }
 
+    }
+
+    public Ellipse() {
+        super(EllipseDrawingStrategy.getInstance());
     }
 
     public Ellipse(Color color, Point2D position, double width, double height) {
@@ -57,6 +60,11 @@ public class Ellipse extends Shape {
                             + pow(distance.getY(), 2) / pow(this.getHeight()/2, 2);
 
         return discriminant <= 1;
+    }
+
+    @Override
+    public Ellipse clone() {
+        return new Ellipse(this.getColor(), this.getPosition(), this.getWidth(), this.getHeight());
     }
 
 }
