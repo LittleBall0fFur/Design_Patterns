@@ -8,8 +8,10 @@ import com.nhlstenden.designpatterns.gui.GUIFactory;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
 public class CanvasEditor extends Scene {
@@ -50,7 +52,7 @@ public class CanvasEditor extends Scene {
 
     }
 
-    private final Group root = (Group) this.getRoot();
+    private final AnchorPane root = (AnchorPane) this.getRoot();
 
     private Canvas canvas;
 
@@ -66,14 +68,23 @@ public class CanvasEditor extends Scene {
     private Color selectedColor = Color.BLUE;
 
     public CanvasEditor(double width, double height) {
+<<<<<<< HEAD
         super(new Group(), width, height, Color.BLACK);
+=======
+        super(new AnchorPane(), width, height);
+>>>>>>> fd2c77f2f22ad1638eccc69473078a8d14b3a793
 
         initCanvas();
         initGUI();
     }
 
     public CanvasEditor() {
+<<<<<<< HEAD
         super(new Group());
+=======
+        super(new AnchorPane());
+
+>>>>>>> fd2c77f2f22ad1638eccc69473078a8d14b3a793
         initCanvas();
         initGUI();
     }
@@ -138,6 +149,16 @@ public class CanvasEditor extends Scene {
         this.root.getChildren().add(GUIFactory.createButton("scale", event -> {
             this.editorMode = ResizeMode.getInstance();
         }));
+
+        Label positionLabel = new Label("");
+        this.canvas.addEventHandler(MouseEvent.ANY, event -> {
+            positionLabel.setText(String.format("(%.0f, %.0f)", event.getX(), event.getY()));
+        });
+
+        this.root.setBottomAnchor(positionLabel, 0.0);
+        this.root.setRightAnchor(positionLabel, 0.0);
+
+        this.root.getChildren().add(positionLabel);
     }
 
 }
