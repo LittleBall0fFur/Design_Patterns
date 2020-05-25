@@ -4,6 +4,7 @@ import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,8 @@ public class Canvas extends Region {
     }
 
     private void clear() {
-        this.context.clearRect(0, 0, this.getWidth(), this.getHeight());
+        this.context.setFill(Color.WHITE);
+        this.context.fillRect(24, 24, this.getWidth(), this.getHeight());
     }
 
 }

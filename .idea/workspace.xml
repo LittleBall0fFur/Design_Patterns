@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2674dcce-af19-47da-a5bb-22eeaef76ad3" name="Default Changelist" comment="">
+    <list default="true" id="8aa87fb3-3c6d-4b68-9395-ead23557e48e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/CanvasEditor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ellipse.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/rectangle.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Ellipse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Ellipse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Rectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Rectangle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/Canvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/HUD/GUIFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Shape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/graphics/shapes/Shape.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,6 +42,18 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -78,12 +93,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
