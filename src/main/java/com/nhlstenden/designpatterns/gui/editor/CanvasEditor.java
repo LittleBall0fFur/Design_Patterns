@@ -68,23 +68,14 @@ public class CanvasEditor extends Scene {
     private Color selectedColor = Color.BLUE;
 
     public CanvasEditor(double width, double height) {
-<<<<<<< HEAD
-        super(new Group(), width, height, Color.BLACK);
-=======
-        super(new AnchorPane(), width, height);
->>>>>>> fd2c77f2f22ad1638eccc69473078a8d14b3a793
+        super(new AnchorPane(), width, height, Color.BLACK);
 
         initCanvas();
         initGUI();
     }
 
     public CanvasEditor() {
-<<<<<<< HEAD
-        super(new Group());
-=======
         super(new AnchorPane());
-
->>>>>>> fd2c77f2f22ad1638eccc69473078a8d14b3a793
         initCanvas();
         initGUI();
     }
