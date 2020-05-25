@@ -3,6 +3,7 @@ package com.nhlstenden.designpatterns;
 import com.nhlstenden.designpatterns.gui.editor.CanvasEditor;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class App extends Application {

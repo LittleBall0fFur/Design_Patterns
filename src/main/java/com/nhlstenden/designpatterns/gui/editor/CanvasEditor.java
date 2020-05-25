@@ -66,7 +66,7 @@ public class CanvasEditor extends Scene {
     private Color selectedColor = Color.BLUE;
 
     public CanvasEditor(double width, double height) {
-        super(new Group(), width, height);
+        super(new Group(), width, height, Color.BLACK);
 
         initCanvas();
         initGUI();
@@ -74,16 +74,18 @@ public class CanvasEditor extends Scene {
 
     public CanvasEditor() {
         super(new Group());
-
         initCanvas();
         initGUI();
     }
 
     private void initCanvas() {
         // Create a new Canvas and bind its width and height to the editor.
-        this.canvas = new Canvas(this.getWidth(), this.getHeight());
-        this.canvas.prefWidthProperty().bind(this.widthProperty());
-        this.canvas.prefHeightProperty().bind(this.heightProperty());
+        this.canvas = new Canvas(this.getWidth() - 424, this.getHeight() - 324);
+        this.canvas.setTranslateX(24);
+        this.canvas.setTranslateY(24);
+
+        //this.canvas.prefWidthProperty().bind(this.widthProperty());
+        //this.canvas.prefHeightProperty().bind(this.heightProperty());
 
         // Hook EditorMode to the Canvas by registering MouseEvent Handlers.
         this.canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,

@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2674dcce-af19-47da-a5bb-22eeaef76ad3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/scale.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/gui/editor/CanvasEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/gui/editor/CanvasEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/gui/editor/ResizeMode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/nhlstenden/designpatterns/gui/editor/ResizeMode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/test.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
