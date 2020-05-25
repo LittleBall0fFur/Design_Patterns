@@ -132,6 +132,10 @@ public class CanvasEditor extends Scene {
         this.root.getChildren().add(GUIFactory.createButton("move", event -> {
             this.editorMode = MoveMode.getInstance();
         }));
+
+        this.root.getChildren().add(GUIFactory.createButton("scale", event -> {
+            this.editorMode = ResizeMode.getInstance();
+        }));
     }
 
 }
