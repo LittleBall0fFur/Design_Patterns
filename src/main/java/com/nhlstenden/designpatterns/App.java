@@ -6,12 +6,16 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
+    private static final String APP_NAME = "Shapist";
+    private static final String APP_VERSION = "v1.0.0";
+
     @Override
     public void start(Stage stage) throws Exception {
         CanvasEditor editor = new CanvasEditor();
         stage.setScene(editor);
 
         stage.setMaximized(true);
+        stage.setTitle(String.format("%s - %s", APP_NAME, APP_VERSION));
         stage.show();
     }
 

@@ -7,6 +7,7 @@ import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -67,16 +68,6 @@ public class CanvasEditor extends Scene {
     private Shape selectedShape = null;
     // TODO: Replace with ColorPicker
     private Color selectedColor = Color.BLUE;
-
-    public CanvasEditor(double width, double height) {
-        super(new AnchorPane(), width, height);
-        this.root.setBackground(new Background(
-                new BackgroundFill(Color.rgb(47, 47, 47), null, null))
-        );
-
-        initCanvas();
-        initGUI();
-    }
 
     public CanvasEditor() {
         super(new AnchorPane());
@@ -156,6 +147,10 @@ public class CanvasEditor extends Scene {
 
         this.root.getChildren().add(GUIFactory.createButton("scale", event -> {
             this.editorMode = ResizeMode.getInstance();
+        }));
+
+        this.root.getChildren().add(GUIFactory.createColorPicker(event -> {
+            this.selectedColor = ((ColorPicker) event.getSource()).getValue();
         }));
 
         Label positionLabel = new Label("");

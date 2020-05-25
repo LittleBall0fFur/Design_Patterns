@@ -1,0 +1,3 @@
+.color-picker .picker-color, .color-picker .color-label {
+    visibility: hidden;
+}
