@@ -5,6 +5,7 @@ import com.nhlstenden.designpatterns.graphics.shapes.Ellipse;
 import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
@@ -25,6 +26,10 @@ public class CanvasEditor extends Scene {
 
         public EditorMode getEditorMode() {
             return editorMode;
+        }
+
+        public Point2D getLastMousePosition() {
+            return lastMousePosition;
         }
 
         public Shape getShapePrototype() {
@@ -52,9 +57,12 @@ public class CanvasEditor extends Scene {
     private EditorContext editorContext = new EditorContext();
     private EditorMode editorMode = DrawMode.getInstance();
 
+    private Point2D lastMousePosition = new Point2D(0, 0);
+
     private Shape shapePrototype = new Rectangle();
 
     private Shape selectedShape = null;
+    // TODO: Replace with ColorPicker
     private Color selectedColor = Color.BLUE;
 
     public CanvasEditor(double width, double height) {
@@ -80,6 +88,8 @@ public class CanvasEditor extends Scene {
         // Hook EditorMode to the Canvas by registering MouseEvent Handlers.
         this.canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
+                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+
                     if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
                         this.editorMode.handleMousePress(event, editorContext);
                 }
@@ -89,6 +99,8 @@ public class CanvasEditor extends Scene {
                 event -> {
                     if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
                         this.editorMode.handleMouseDrag(event, editorContext);
+
+                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
                 }
         );
 
@@ -96,6 +108,8 @@ public class CanvasEditor extends Scene {
                 event -> {
                     if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
                         this.editorMode.handleMouseRelease(event, editorContext);
+
+                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
                 }
         );
 
@@ -113,6 +127,10 @@ public class CanvasEditor extends Scene {
         this.root.getChildren().add(GUIFactory.createButton("ellipse", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Ellipse();
+        }));
+
+        this.root.getChildren().add(GUIFactory.createButton("move", event -> {
+            this.editorMode = MoveMode.getInstance();
         }));
     }
 
