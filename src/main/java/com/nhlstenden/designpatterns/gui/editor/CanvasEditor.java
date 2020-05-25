@@ -131,25 +131,25 @@ public class CanvasEditor extends Scene {
     }
 
     private void initGUI() {
-        this.root.getChildren().add(GUIFactory.createButton("rectangle", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("rectangle", "Select Rectangle", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Rectangle();
         }));
 
-        this.root.getChildren().add(GUIFactory.createButton("ellipse", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("ellipse", "Select Ellipse", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Ellipse();
         }));
 
-        this.root.getChildren().add(GUIFactory.createButton("move", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode", event -> {
             this.editorMode = MoveMode.getInstance();
         }));
 
-        this.root.getChildren().add(GUIFactory.createButton("scale", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("scale", "Resize Mode", event -> {
             this.editorMode = ResizeMode.getInstance();
         }));
 
-        this.root.getChildren().add(GUIFactory.createColorPicker(event -> {
+        this.root.getChildren().add(GUIFactory.createColorPicker("Color Picker", event -> {
             this.selectedColor = ((ColorPicker) event.getSource()).getValue();
         }));
 
