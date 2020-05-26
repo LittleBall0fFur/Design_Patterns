@@ -2,12 +2,14 @@ package com.nhlstenden.designpatterns.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public abstract class GUIFactory {
 
@@ -41,9 +43,19 @@ public abstract class GUIFactory {
         colorPicker.getStyleClass().add("button");
         colorPicker.getStylesheets().add(GUIFactory.class.getResource("/css/colorpicker.css").toExternalForm());
 
-        BackgroundImage backgroundImage = new BackgroundImage(new Image(GUIFactory.class.getResource("/img/icons/pipette.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        colorPicker.setBackground(background);
+        colorPicker.setBackground(new Background(
+                new BackgroundFill(Color.WHITE, new CornerRadii(16), new Insets(2)),
+                new BackgroundFill(colorPicker.getValue(), new CornerRadii(16), new Insets(3)))
+        );
+
+        colorPicker.valueProperty().addListener((observable, old_color, new_color) -> {
+            colorPicker.setBackground(new Background(
+                    new BackgroundFill(Color.WHITE, new CornerRadii(16), new Insets(2)),
+                    new BackgroundFill(new_color, new CornerRadii(16), new Insets(3))
+                    )
+            );
+        });
+
         colorPicker.setMinSize(24,24);
         colorPicker.setMaxSize(24,24);
 

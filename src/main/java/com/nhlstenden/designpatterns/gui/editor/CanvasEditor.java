@@ -50,7 +50,11 @@ public class CanvasEditor extends Scene {
         }
 
         public Color getSelectedColor() {
-            return selectedColor;
+            return colorPicker.getValue();
+        }
+
+        public void setSelectedColor(Color new_color) {
+            colorPicker.setValue(new_color);
         }
 
     }
@@ -58,6 +62,7 @@ public class CanvasEditor extends Scene {
     private final AnchorPane root = (AnchorPane) this.getRoot();
 
     private Canvas canvas;
+    private ColorPicker colorPicker;
 
     private EditorContext editorContext = new EditorContext();
     private EditorMode editorMode = DrawMode.getInstance();
@@ -67,8 +72,6 @@ public class CanvasEditor extends Scene {
     private Shape shapePrototype = new Rectangle();
 
     private Shape selectedShape = null;
-    // TODO: Replace with ColorPicker
-    private Color selectedColor = Color.BLUE;
 
     public CanvasEditor() {
         super(new AnchorPane());
@@ -174,27 +177,30 @@ public class CanvasEditor extends Scene {
     }
 
     private void initGUI() {
-        this.root.getChildren().add(GUIFactory.createButton("rectangle", "Select Rectangle", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("rectangle", "Select Rectangle (A)", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Rectangle();
         }));
 
-        this.root.getChildren().add(GUIFactory.createButton("ellipse", "Select Ellipse", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("ellipse", "Select Ellipse (S)", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Ellipse();
         }));
 
-        this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode (X)", event -> {
             this.editorMode = MoveMode.getInstance();
         }));
 
-        this.root.getChildren().add(GUIFactory.createButton("scale", "Resize Mode", event -> {
+        this.root.getChildren().add(GUIFactory.createButton("scale", "Resize Mode (Z)", event -> {
             this.editorMode = ResizeMode.getInstance();
         }));
 
-        this.root.getChildren().add(GUIFactory.createColorPicker("Color Picker", event -> {
-            this.selectedColor = ((ColorPicker) event.getSource()).getValue();
+        this.root.getChildren().add(GUIFactory.createButton("pipette", "Pipette", event -> {
+            this.editorMode = ColorSelectMode.getInstance();
         }));
+
+        this.colorPicker = GUIFactory.createColorPicker("Color Picker", null);
+        this.root.getChildren().add(this.colorPicker);
 
         Label positionLabel = new Label("");
         positionLabel.setTextFill(Color.WHITESMOKE);
