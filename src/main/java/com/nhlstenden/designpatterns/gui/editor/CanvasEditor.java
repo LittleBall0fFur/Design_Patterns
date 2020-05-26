@@ -9,6 +9,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -75,8 +76,50 @@ public class CanvasEditor extends Scene {
                 new BackgroundFill(Color.rgb(47, 47, 47), null, null))
         );
 
+        registerKeybindings();
+
         initCanvas();
         initGUI();
+    }
+
+    private void registerKeybindings() {
+        this.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+            System.out.println(event.getCharacter());
+
+            if (event.isControlDown()) {
+                switch (event.getCode()) {
+                    case A:
+                        // Do nothing, yet.
+                        break;
+                    case S:
+                        // Do nothing, save canvas once implemented.
+                        break;
+                    case X:
+                        // Do nothing, yet.
+                        break;
+                    case Z:
+                        // Do nothing, yet.
+                        break;
+                }
+            } else {
+                switch (event.getCode()) {
+                    case A:
+                        this.editorMode = DrawMode.getInstance();
+                        this.shapePrototype = new Rectangle();
+                        break;
+                    case S:
+                        this.editorMode = DrawMode.getInstance();
+                        this.shapePrototype = new Ellipse();
+                        break;
+                    case X:
+                        this.editorMode = MoveMode.getInstance();
+                        break;
+                    case Z:
+                        this.editorMode = ResizeMode.getInstance();
+                        break;
+                }
+            }
+        });
     }
 
     private void initCanvas() {
