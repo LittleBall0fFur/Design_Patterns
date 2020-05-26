@@ -196,7 +196,7 @@ public class CanvasEditor extends Scene {
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("pipette", "Pipette", event -> {
-            this.editorMode = ColorSelectMode.getInstance();
+            this.editorMode = PipetteMode.getInstance();
         }));
 
         this.colorPicker = GUIFactory.createColorPicker("Color Picker", null);
