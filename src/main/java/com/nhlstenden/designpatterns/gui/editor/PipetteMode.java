@@ -16,7 +16,6 @@ public class PipetteMode implements EditorMode {
         return __instance__;
     }
 
-
     @Override
     public void handleMousePress(MouseEvent event, CanvasEditor.EditorContext context) {
         Shape shape = context.getCanvas().getShapeAt(event.getX(), event.getY());
