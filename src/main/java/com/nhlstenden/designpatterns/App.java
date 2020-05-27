@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-    private static final String APP_NAME = "Shapist";
+    private static final String APP_NAME = "SsshApe";
     private static final String APP_VERSION = "v1.0.0";
 
     private static final Image APP_ICON = new Image(App.class.getResourceAsStream("/img/logo.png"));
