@@ -23,16 +23,12 @@ public class DrawMode implements EditorMode {
         if (context.getShapePrototype() == null)
             return;
 
-        if (event.getButton() == MouseButton.PRIMARY) {
-            Shape shape = context.getShapePrototype().clone();
-            shape.setColor(context.getSelectedColor());
-            shape.setPosition(event.getX(), event.getY());
+        Shape shape = context.getShapePrototype().clone();
+        shape.setColor(context.getSelectedColor());
+        shape.setPosition(event.getX(), event.getY());
 
-            context.getCanvas().addShape(shape);
-            context.setSelectedShape(shape);
-        } else if (event.getButton() == MouseButton.SECONDARY) {
-            context.getCanvas().removeShapeAt(event.getX(), event.getY());
-        }
+        context.getCanvas().addShape(shape);
+        context.setSelectedShape(shape);
     }
 
     @Override

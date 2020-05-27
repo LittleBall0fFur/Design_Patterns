@@ -187,6 +187,10 @@ public class CanvasEditor extends Scene {
             this.shapePrototype = new Ellipse();
         }));
 
+        this.root.getChildren().add(GUIFactory.createButton("eraser", "Eraser Mode", event -> {
+            this.editorMode = EraserMode.getInstance();
+        }));
+
         this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode (X)", event -> {
             this.editorMode = MoveMode.getInstance();
         }));
