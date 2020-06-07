@@ -61,7 +61,8 @@ public class CanvasEditor extends Scene {
     private Canvas canvas;
     private ColorPicker colorPicker;
 
-    private EditorContext editorContext = new EditorContext();
+    private final EditorContext editorContext = new EditorContext();
+    private final EditorHistory history = new EditorHistory(editorContext);
 
     private EditorCommand commandPrototype = new DrawCommand(new Rectangle());
     private EditorCommand currentCommand = null;
@@ -71,16 +72,11 @@ public class CanvasEditor extends Scene {
     private Point2D previousMousePosition = new Point2D(0, 0);
     private Point2D currentMousePosition = new Point2D(0, 0);
 
-    private Deque<EditorCommand> history;
-    private Deque<EditorCommand> redo;
-
     public CanvasEditor() {
         super(new AnchorPane());
         this.root.setBackground(new Background(
                 new BackgroundFill(Color.rgb(47, 47, 47), null, null))
         );
-        history = new LinkedList();
-        redo = new LinkedList();
 
         registerKeybindings();
 
@@ -100,11 +96,11 @@ public class CanvasEditor extends Scene {
                     case S:
                         // Do nothing, save canvas once implemented.
                         break;
-                    case X:
-                        this.currentCommand.redo(editorContext);
-                        break;
                     case Z:
-                        this.currentCommand.undo(editorContext);
+                        this.history.undo();
+                        break;
+                    case Y:
+                        this.history.redo();
                         break;
                 }
             } else {
@@ -187,6 +183,8 @@ public class CanvasEditor extends Scene {
                     this.currentMousePosition = new Point2D(event.getX(), event.getY());
 
                     // Register command in history.
+                    this.history.register(currentCommand);
+                    this.currentCommand = null;
                 }
         );
 
@@ -227,6 +225,14 @@ public class CanvasEditor extends Scene {
         this.colorPicker = GUIFactory.createColorPicker("Color Picker", null);
         this.root.getChildren().add(this.colorPicker);
 
+        this.root.getChildren().add(GUIFactory.createButton("undo", "Undo (CTRL+Z)", event -> {
+            this.history.undo();
+        }));
+
+        this.root.getChildren().add(GUIFactory.createButton("redo", "Redo (CTRL+Y)", event -> {
+            this.history.redo();
+        }));
+
         Label positionLabel = new Label("");
         positionLabel.setTextFill(Color.WHITESMOKE);
         
@@ -240,15 +246,4 @@ public class CanvasEditor extends Scene {
         this.root.getChildren().add(positionLabel);
     }
 
-    private void Undo(){
-        redo.addLast(history.getLast());
-        //To-do undo command
-        history.removeLast();
-    }
-
-    private void Redo(){
-        history.addLast(redo.getLast());
-        //To-do redo command
-        redo.removeLast();
-    }
 }
