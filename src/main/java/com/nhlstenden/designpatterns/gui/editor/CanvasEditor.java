@@ -1,6 +1,7 @@
 package com.nhlstenden.designpatterns.gui.editor;
 
 import com.nhlstenden.designpatterns.graphics.Canvas;
+import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.shapes.Ellipse;
 import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
@@ -16,6 +17,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+
+import java.io.Console;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class CanvasEditor extends Scene {
 
@@ -73,11 +78,16 @@ public class CanvasEditor extends Scene {
 
     private Shape selectedShape = null;
 
+    private Deque<EditorMode> history;
+    private Deque<EditorMode> redo;
+
     public CanvasEditor() {
         super(new AnchorPane());
         this.root.setBackground(new Background(
                 new BackgroundFill(Color.rgb(47, 47, 47), null, null))
         );
+        history = new LinkedList();
+        redo = new LinkedList();
 
         registerKeybindings();
 
@@ -101,7 +111,10 @@ public class CanvasEditor extends Scene {
                         // Do nothing, yet.
                         break;
                     case Z:
-                        // Do nothing, yet.
+                        this.Undo();
+                        break;
+                    case Y:
+                        this.Redo();
                         break;
                 }
             } else {
@@ -180,23 +193,28 @@ public class CanvasEditor extends Scene {
         this.root.getChildren().add(GUIFactory.createButton("rectangle", "Select Rectangle (A)", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Rectangle();
+            history.add(editorMode);
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("ellipse", "Select Ellipse (S)", event -> {
             this.editorMode = DrawMode.getInstance();
             this.shapePrototype = new Ellipse();
+            history.add(editorMode);
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("eraser", "Eraser Mode", event -> {
             this.editorMode = EraserMode.getInstance();
+            history.add(editorMode);
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode (X)", event -> {
             this.editorMode = MoveMode.getInstance();
+            history.add(editorMode);
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("scale", "Resize Mode (Z)", event -> {
             this.editorMode = ResizeMode.getInstance();
+            history.add(editorMode);
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("pipette", "Pipette", event -> {
@@ -219,4 +237,15 @@ public class CanvasEditor extends Scene {
         this.root.getChildren().add(positionLabel);
     }
 
+    private void Undo(){
+        redo.addLast(history.getLast());
+        //To-do undo command
+        history.removeLast();
+    }
+
+    private void Redo(){
+        history.addLast(redo.getLast());
+        //To-do redo command
+        redo.removeLast();
+    }
 }

@@ -110,4 +110,8 @@ public class Canvas extends Region {
         this.context.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
 
+    public List<Drawable> getDrawables(){
+        return drawables;
+    }
+
 }
