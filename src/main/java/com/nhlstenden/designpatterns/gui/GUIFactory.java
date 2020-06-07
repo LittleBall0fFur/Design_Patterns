@@ -3,6 +3,7 @@ package com.nhlstenden.designpatterns.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Tooltip;
@@ -10,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public abstract class GUIFactory {
 
@@ -61,5 +64,16 @@ public abstract class GUIFactory {
 
         return colorPicker;
     }
+
+    /*public static Text createText(Point2D position, Color color, String text){
+        Text caption = new Text();
+        caption.setFont(Font.font("Verdana", 20));
+        caption.setFill(color);
+        caption.setText(text);
+        caption.setX(position.getX());
+        caption.setY(position.getY());
+
+        return caption;
+    }*/
 
 }

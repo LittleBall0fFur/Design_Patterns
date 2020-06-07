@@ -5,6 +5,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.*;
 
@@ -101,6 +102,11 @@ public class Canvas extends Region {
 
         // Update the Canvas.
         this.present();
+    }
+
+    public void addText(Text text) {
+        // add text to canvas
+        //context.text
     }
 
     public void removeShapes(Shape... shapes) {

@@ -2,6 +2,7 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
+import com.nhlstenden.designpatterns.gui.editor.CanvasEditor;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -49,7 +50,7 @@ public class Ellipse extends Shape {
         super(color, position, width, height, EllipseDrawingStrategy.getInstance());
     }
 
-    public void drawCaption() {
+    public void drawCaption(CanvasEditor.EditorContext context, Color color, String text) {
         double x = this.getPosition().getX();
         double y = this.getPosition().getY();
         double padding = 5.0;
@@ -59,7 +60,7 @@ public class Ellipse extends Shape {
         // calculate new y where caption should be placed
         y = y + (this.getHeight()/2) + padding;
         // call super.drawCaption with these parameters
-        super.drawCaption(this);
+//        super.drawCaption(context, new Point2D(x, y), color, text);
     }
 
     @Override

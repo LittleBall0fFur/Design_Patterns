@@ -216,6 +216,10 @@ public class CanvasEditor extends Scene {
             this.commandPrototype = new ResizeCommand();
         }));
 
+        this.root.getChildren().add(GUIFactory.createButton("caption", "Add a caption to a shape", event -> {
+            this.commandPrototype = new CaptionCommand();
+        }));
+
         this.root.getChildren().add(GUIFactory.createButton("pipette", "Pipette", event -> {
             this.commandPrototype = new PipetteCommand();
         }));

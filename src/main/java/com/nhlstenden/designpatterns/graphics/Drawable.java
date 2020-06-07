@@ -1,11 +1,19 @@
 package com.nhlstenden.designpatterns.graphics;
 
-import com.nhlstenden.designpatterns.gui.caption.CaptionDecorator;
+import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Drawable extends CaptionDecorator {
+public abstract class Drawable {
 
     private final DrawingStrategy drawingStrategy;
+
+    public DrawingStrategy getDrawingStrategy() {
+        return this.drawingStrategy;
+    }
+
+    protected Drawable(DrawingStrategy drawingStrategy, Shape shape) {
+        this.drawingStrategy = drawingStrategy;
+    }
 
     /**
      * Constructs a Drawable instance to be used as a base class for anything which can be drawn.
