@@ -6,8 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Canvas extends Region {
 
@@ -62,27 +61,34 @@ public class Canvas extends Region {
         return result;
     }
 
-    public void removeShapeAt(double x, double y) {
-        this.removeShapeAt(new Point2D(x, y));
+    public Shape removeShapeAt(double x, double y) {
+        return this.removeShapeAt(new Point2D(x, y));
     }
 
-    public void removeShapeAt(Point2D position) {
+    public Shape removeShapeAt(Point2D position) {
+        Shape result = null;
         for (int i = drawables.size()-1; i >= 0; i--) {
             if (!(drawables.get(i) instanceof Shape))
                 continue;
 
             Shape current_shape = (Shape) drawables.get(i);
             if (current_shape.contains(position)) {
+                result = current_shape;
                 drawables.remove(i);
                 break;
             }
         }
 
-        // Update the Canvas.
         this.present();
+
+        return result;
     }
 
     public void addShapes(Shape... shapes) {
+        this.addShapes(Arrays.asList(shapes));
+    }
+
+    public void addShapes(Collection<? extends Shape> shapes) {
         for (Shape shape : shapes)
             this.drawables.add(shape);
 
@@ -92,6 +98,25 @@ public class Canvas extends Region {
 
     public void addShape(Shape shape) {
         this.drawables.add(shape);
+
+        // Update the Canvas.
+        this.present();
+    }
+
+    public void removeShapes(Shape... shapes) {
+        this.addShapes(Arrays.asList(shapes));
+    }
+
+    public void removeShapes(Collection<? extends Shape> shapes) {
+        for (Shape shape : shapes)
+            this.drawables.remove(shape);
+
+        // Update the Canvas.
+        this.present();
+    }
+
+    public void removeShape(Shape shape) {
+        this.drawables.remove(shape);
 
         // Update the Canvas.
         this.present();

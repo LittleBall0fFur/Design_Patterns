@@ -34,24 +34,16 @@ public class CanvasEditor extends Scene {
             return canvas;
         }
 
-        public EditorMode getEditorMode() {
-            return editorMode;
+        public MouseEvent getCurrentMouseEvent() {
+            return currentMouseEvent;
         }
 
-        public Point2D getLastMousePosition() {
-            return lastMousePosition;
+        public Point2D getPreviousMousePosition() {
+            return previousMousePosition;
         }
 
-        public Shape getShapePrototype() {
-            return shapePrototype;
-        }
-
-        public Shape getSelectedShape() {
-            return selectedShape;
-        }
-
-        public void setSelectedShape(Shape shape) {
-            selectedShape = shape;
+        public Point2D getCurrentMousePosition() {
+            return currentMousePosition;
         }
 
         public Color getSelectedColor() {
@@ -70,16 +62,17 @@ public class CanvasEditor extends Scene {
     private ColorPicker colorPicker;
 
     private EditorContext editorContext = new EditorContext();
-    private EditorMode editorMode = DrawMode.getInstance();
 
-    private Point2D lastMousePosition = new Point2D(0, 0);
+    private EditorCommand commandPrototype = new DrawCommand(new Rectangle());
+    private EditorCommand currentCommand = null;
 
-    private Shape shapePrototype = new Rectangle();
+    private MouseEvent currentMouseEvent = null;
 
-    private Shape selectedShape = null;
+    private Point2D previousMousePosition = new Point2D(0, 0);
+    private Point2D currentMousePosition = new Point2D(0, 0);
 
-    private Deque<EditorMode> history;
-    private Deque<EditorMode> redo;
+    private Deque<EditorCommand> history;
+    private Deque<EditorCommand> redo;
 
     public CanvasEditor() {
         super(new AnchorPane());
@@ -108,32 +101,29 @@ public class CanvasEditor extends Scene {
                         // Do nothing, save canvas once implemented.
                         break;
                     case X:
-                        // Do nothing, yet.
+                        this.currentCommand.redo(editorContext);
                         break;
                     case Z:
-                        this.Undo();
-                        break;
-                    case Y:
-                        this.Redo();
+                        this.currentCommand.undo(editorContext);
                         break;
                 }
             } else {
-                switch (event.getCode()) {
-                    case A:
-                        this.editorMode = DrawMode.getInstance();
-                        this.shapePrototype = new Rectangle();
-                        break;
-                    case S:
-                        this.editorMode = DrawMode.getInstance();
-                        this.shapePrototype = new Ellipse();
-                        break;
-                    case X:
-                        this.editorMode = MoveMode.getInstance();
-                        break;
-                    case Z:
-                        this.editorMode = ResizeMode.getInstance();
-                        break;
-                }
+//                switch (event.getCode()) {
+//                    case A:
+//                        this.editorMode = DrawMode.getInstance();
+//                        this.shapePrototype = new Rectangle();
+//                        break;
+//                    case S:
+//                        this.editorMode = DrawMode.getInstance();
+//                        this.shapePrototype = new Ellipse();
+//                        break;
+//                    case X:
+//                        this.editorMode = MoveMode.getInstance();
+//                        break;
+//                    case Z:
+//                        this.editorMode = ResizeMode.getInstance();
+//                        break;
+//                }
             }
         });
     }
@@ -159,28 +149,44 @@ public class CanvasEditor extends Scene {
         // Hook EditorMode to the Canvas by registering MouseEvent Handlers.
         this.canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
-                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+                    if (event.getButton() != MouseButton.PRIMARY && event.getButton() != MouseButton.SECONDARY)
+                        return;
 
-                    if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
-                        this.editorMode.handleMousePress(event, editorContext);
+                    this.currentMouseEvent = event;
+
+                    this.previousMousePosition = this.currentMousePosition;
+                    this.currentMousePosition = new Point2D(event.getX(), event.getY());
+
+                    this.currentCommand = this.commandPrototype.clone();
+                    this.currentCommand.execute(this.editorContext);
                 }
         );
 
         this.canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 event -> {
-                    if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
-                        this.editorMode.handleMouseDrag(event, editorContext);
+                    if (event.getButton() != MouseButton.PRIMARY && event.getButton() != MouseButton.SECONDARY)
+                        return;
 
-                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+                    this.currentMouseEvent = event;
+
+                    this.previousMousePosition = this.currentMousePosition;
+                    this.currentMousePosition = new Point2D(event.getX(), event.getY());
+
+                    this.currentCommand.execute(this.editorContext);
                 }
         );
 
         this.canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
                 event -> {
-                    if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
-                        this.editorMode.handleMouseRelease(event, editorContext);
+                    if (event.getButton() != MouseButton.PRIMARY && event.getButton() != MouseButton.SECONDARY)
+                        return;
 
-                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+                    this.currentMouseEvent = event;
+
+                    this.previousMousePosition = this.currentMousePosition;
+                    this.currentMousePosition = new Point2D(event.getX(), event.getY());
+
+                    // Register command in history.
                 }
         );
 
@@ -191,34 +197,27 @@ public class CanvasEditor extends Scene {
 
     private void initGUI() {
         this.root.getChildren().add(GUIFactory.createButton("rectangle", "Select Rectangle (A)", event -> {
-            this.editorMode = DrawMode.getInstance();
-            this.shapePrototype = new Rectangle();
-            history.add(editorMode);
+            this.commandPrototype = new DrawCommand(new Rectangle());
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("ellipse", "Select Ellipse (S)", event -> {
-            this.editorMode = DrawMode.getInstance();
-            this.shapePrototype = new Ellipse();
-            history.add(editorMode);
+            this.commandPrototype = new DrawCommand(new Ellipse());
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("eraser", "Eraser Mode", event -> {
-            this.editorMode = EraserMode.getInstance();
-            history.add(editorMode);
+            this.commandPrototype = new EraseCommand();
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode (X)", event -> {
-            this.editorMode = MoveMode.getInstance();
-            history.add(editorMode);
+            this.commandPrototype = new MoveCommand();
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("scale", "Resize Mode (Z)", event -> {
-            this.editorMode = ResizeMode.getInstance();
-            history.add(editorMode);
+            this.commandPrototype = new ResizeCommand();
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("pipette", "Pipette", event -> {
-            this.editorMode = PipetteMode.getInstance();
+            this.commandPrototype = new PipetteCommand();
         }));
 
         this.colorPicker = GUIFactory.createColorPicker("Color Picker", null);
