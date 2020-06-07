@@ -1,8 +1,9 @@
 package com.nhlstenden.designpatterns.graphics;
 
+import com.nhlstenden.designpatterns.gui.caption.CaptionDecorator;
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Drawable {
+public abstract class Drawable extends CaptionDecorator {
 
     private final DrawingStrategy drawingStrategy;
 

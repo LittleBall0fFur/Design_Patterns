@@ -47,6 +47,10 @@ public class Rectangle extends Shape {
         super(color, position, width, height, RectangleDrawingStrategy.getInstance());
     }
 
+    public void drawCaption() {
+        super.drawCaption(this);
+    }
+
     @Override
     public boolean contains(Point2D point) {
         return point.getX() >= this.getPosition().getX() && point.getX() < (this.getPosition().getX()+this.getWidth())

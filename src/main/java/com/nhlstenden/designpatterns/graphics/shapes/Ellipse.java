@@ -49,6 +49,19 @@ public class Ellipse extends Shape {
         super(color, position, width, height, EllipseDrawingStrategy.getInstance());
     }
 
+    public void drawCaption() {
+        double x = this.getPosition().getX();
+        double y = this.getPosition().getY();
+        double padding = 5.0;
+        // check if caption should be placed: ernaast, erboven, eronder
+        // calculate new x where caption should be placed
+        x = x + (this.getWidth()/2) + padding;
+        // calculate new y where caption should be placed
+        y = y + (this.getHeight()/2) + padding;
+        // call super.drawCaption with these parameters
+        super.drawCaption(this);
+    }
+
     @Override
     public boolean contains(Point2D point) {
         Point2D center = this.getPosition().add(this.getWidth()/2, this.getHeight()/2);

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Composition extends Shape {
 
@@ -23,6 +24,7 @@ public class Composition extends Shape {
         public static GroupDrawingStrategy getInstance() {
             return __instance__;
         }
+
 
         @Override
         public void execute(GraphicsContext context, Drawable drawable) {
@@ -52,6 +54,11 @@ public class Composition extends Shape {
 
         this.shapes.addAll(shapes);
         this.initializeBounds();
+    }
+
+    public void drawCaption() {
+
+        //super.drawCaption()
     }
 
     private Composition() {

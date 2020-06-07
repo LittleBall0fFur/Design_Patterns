@@ -64,9 +64,7 @@ public abstract class Shape extends Drawable {
         return width;
     }
 
-    public double getHeight() {
-        return height;
-    }
+    public double getHeight() { return height; }
 
     @Override
     public abstract Shape clone();
