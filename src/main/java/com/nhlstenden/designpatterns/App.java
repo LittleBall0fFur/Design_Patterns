@@ -14,8 +14,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        CanvasEditor editor = new CanvasEditor();
-        stage.setScene(editor);
+        stage.setScene(CanvasEditor.getInstance());
 
         stage.setMaximized(true);
         stage.setTitle(String.format("%s - %s", APP_NAME, APP_VERSION));

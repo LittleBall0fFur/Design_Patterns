@@ -2,6 +2,7 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
+import com.nhlstenden.designpatterns.graphics.ShapeVisitor;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
@@ -37,7 +38,7 @@ public abstract class Shape extends Drawable {
     }
 
     public void setPosition(double x, double y) {
-        this.setPosition(new Point2D(x, y));
+        this.position = new Point2D(x, y);
     }
 
     public void setPosition(Point2D position) {
@@ -64,9 +65,9 @@ public abstract class Shape extends Drawable {
         return width;
     }
 
-    public double getHeight() {
-        return height;
-    }
+    public double getHeight() { return height; }
+
+    public abstract void accept(ShapeVisitor visitor);
 
     @Override
     public abstract Shape clone();

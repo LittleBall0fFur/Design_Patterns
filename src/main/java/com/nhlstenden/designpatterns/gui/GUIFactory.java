@@ -3,13 +3,17 @@ package com.nhlstenden.designpatterns.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public abstract class GUIFactory {
 
@@ -29,6 +33,30 @@ public abstract class GUIFactory {
         button.setMinSize(24,24);
 
         return button;
+    }
+
+    public static Button createCanvasButton(String name, String tooltip, double x, double y, EventHandler<MouseEvent> clickEventHandler){
+        Button button = new Button();
+        button.setTranslateX(x + 12);
+        button.setTranslateY(y + 12);
+        button.addEventHandler(MouseEvent.MOUSE_RELEASED, clickEventHandler);
+
+        button.setTooltip(new Tooltip(tooltip));
+
+        BackgroundImage backgroundImage = new BackgroundImage(new Image(GUIFactory.class.getResource("/img/icons/" + name + ".png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+        button.setBackground(background);
+        button.setMinSize(24,24);
+
+        return button;
+    }
+
+    public static TextField createTextField(String promptText, double x, double y) {
+        TextField textField = new TextField("");
+        textField.setPromptText(promptText);
+        textField.setTranslateX(x);
+        textField.setTranslateY(y);
+        return textField;
     }
 
     public static ColorPicker createColorPicker(String tooltip, EventHandler<ActionEvent> actionEventHandler) {
@@ -61,5 +89,16 @@ public abstract class GUIFactory {
 
         return colorPicker;
     }
+
+    /*public static Text createText(Point2D position, Color color, String text){
+        Text caption = new Text();
+        caption.setFont(Font.font("Verdana", 20));
+        caption.setFill(color);
+        caption.setText(text);
+        caption.setX(position.getX());
+        caption.setY(position.getY());
+
+        return caption;
+    }*/
 
 }

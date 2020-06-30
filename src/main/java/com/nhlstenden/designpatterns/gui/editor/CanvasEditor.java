@@ -1,10 +1,12 @@
 package com.nhlstenden.designpatterns.gui.editor;
 
 import com.nhlstenden.designpatterns.graphics.Canvas;
+import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.shapes.Ellipse;
 import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
+import com.nhlstenden.designpatterns.io.ShapeSerializer;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
@@ -16,6 +18,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+
+import java.io.*;
+import java.nio.file.DirectoryIteratorException;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class CanvasEditor extends Scene {
 
@@ -29,24 +38,16 @@ public class CanvasEditor extends Scene {
             return canvas;
         }
 
-        public EditorMode getEditorMode() {
-            return editorMode;
+        public MouseEvent getCurrentMouseEvent() {
+            return currentMouseEvent;
         }
 
-        public Point2D getLastMousePosition() {
-            return lastMousePosition;
+        public Point2D getPreviousMousePosition() {
+            return previousMousePosition;
         }
 
-        public Shape getShapePrototype() {
-            return shapePrototype;
-        }
-
-        public Shape getSelectedShape() {
-            return selectedShape;
-        }
-
-        public void setSelectedShape(Shape shape) {
-            selectedShape = shape;
+        public Point2D getCurrentMousePosition() {
+            return currentMousePosition;
         }
 
         public Color getSelectedColor() {
@@ -64,16 +65,24 @@ public class CanvasEditor extends Scene {
     private Canvas canvas;
     private ColorPicker colorPicker;
 
-    private EditorContext editorContext = new EditorContext();
-    private EditorMode editorMode = DrawMode.getInstance();
+    private final EditorContext editorContext = new EditorContext();
+    private final EditorHistory history = new EditorHistory(editorContext);
 
-    private Point2D lastMousePosition = new Point2D(0, 0);
+    private EditorCommand commandPrototype = new DrawCommand(new Rectangle());
+    private EditorCommand currentCommand = null;
 
-    private Shape shapePrototype = new Rectangle();
+    private MouseEvent currentMouseEvent = null;
 
-    private Shape selectedShape = null;
+    private Point2D previousMousePosition = new Point2D(0, 0);
+    private Point2D currentMousePosition = new Point2D(0, 0);
 
-    public CanvasEditor() {
+    private static final CanvasEditor __instance__ = new CanvasEditor();
+
+    public static CanvasEditor getInstance(){
+        return __instance__;
+    }
+
+    private CanvasEditor() {
         super(new AnchorPane());
         this.root.setBackground(new Background(
                 new BackgroundFill(Color.rgb(47, 47, 47), null, null))
@@ -97,30 +106,30 @@ public class CanvasEditor extends Scene {
                     case S:
                         // Do nothing, save canvas once implemented.
                         break;
-                    case X:
-                        // Do nothing, yet.
-                        break;
                     case Z:
-                        // Do nothing, yet.
+                        this.history.undo();
+                        break;
+                    case Y:
+                        this.history.redo();
                         break;
                 }
             } else {
-                switch (event.getCode()) {
-                    case A:
-                        this.editorMode = DrawMode.getInstance();
-                        this.shapePrototype = new Rectangle();
-                        break;
-                    case S:
-                        this.editorMode = DrawMode.getInstance();
-                        this.shapePrototype = new Ellipse();
-                        break;
-                    case X:
-                        this.editorMode = MoveMode.getInstance();
-                        break;
-                    case Z:
-                        this.editorMode = ResizeMode.getInstance();
-                        break;
-                }
+//                switch (event.getCode()) {
+//                    case A:
+//                        this.editorMode = DrawMode.getInstance();
+//                        this.shapePrototype = new Rectangle();
+//                        break;
+//                    case S:
+//                        this.editorMode = DrawMode.getInstance();
+//                        this.shapePrototype = new Ellipse();
+//                        break;
+//                    case X:
+//                        this.editorMode = MoveMode.getInstance();
+//                        break;
+//                    case Z:
+//                        this.editorMode = ResizeMode.getInstance();
+//                        break;
+//                }
             }
         });
     }
@@ -146,28 +155,48 @@ public class CanvasEditor extends Scene {
         // Hook EditorMode to the Canvas by registering MouseEvent Handlers.
         this.canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 event -> {
-                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+                    if (event.getButton() != MouseButton.PRIMARY && event.getButton() != MouseButton.SECONDARY)
+                        return;
 
-                    if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
-                        this.editorMode.handleMousePress(event, editorContext);
+                    this.currentMouseEvent = event;
+
+                    this.previousMousePosition = this.currentMousePosition;
+                    this.currentMousePosition = new Point2D(event.getX(), event.getY());
+
+                    this.currentCommand = this.commandPrototype.clone();
+                    this.currentCommand.execute(this.editorContext);
                 }
         );
 
         this.canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
                 event -> {
-                    if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
-                        this.editorMode.handleMouseDrag(event, editorContext);
+                    if (event.getButton() != MouseButton.PRIMARY && event.getButton() != MouseButton.SECONDARY)
+                        return;
 
-                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+                    this.currentMouseEvent = event;
+
+                    this.previousMousePosition = this.currentMousePosition;
+                    this.currentMousePosition = new Point2D(event.getX(), event.getY());
+
+                    this.currentCommand.execute(this.editorContext);
                 }
         );
 
         this.canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
                 event -> {
-                    if (event.getButton() == MouseButton.PRIMARY || event.getButton() == MouseButton.SECONDARY)
-                        this.editorMode.handleMouseRelease(event, editorContext);
+                    if (event.getButton() != MouseButton.PRIMARY && event.getButton() != MouseButton.SECONDARY)
+                        return;
 
-                    this.lastMousePosition = new Point2D(event.getX(), event.getY());
+                    this.currentMouseEvent = event;
+
+                    this.previousMousePosition = this.currentMousePosition;
+                    this.currentMousePosition = new Point2D(event.getX(), event.getY());
+
+                    this.currentCommand.execute(this.editorContext);
+
+                    // Register command in history.
+                    this.history.register(currentCommand);
+                    this.currentCommand = null;
                 }
         );
 
@@ -178,37 +207,63 @@ public class CanvasEditor extends Scene {
 
     private void initGUI() {
         this.root.getChildren().add(GUIFactory.createButton("rectangle", "Select Rectangle (A)", event -> {
-            this.editorMode = DrawMode.getInstance();
-            this.shapePrototype = new Rectangle();
+            this.commandPrototype = new DrawCommand(new Rectangle());
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("ellipse", "Select Ellipse (S)", event -> {
-            this.editorMode = DrawMode.getInstance();
-            this.shapePrototype = new Ellipse();
+            this.commandPrototype = new DrawCommand(new Ellipse());
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("eraser", "Eraser Mode", event -> {
-            this.editorMode = EraserMode.getInstance();
+            this.commandPrototype = new EraseCommand();
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("move", "Move Mode (X)", event -> {
-            this.editorMode = MoveMode.getInstance();
+            this.commandPrototype = new MoveCommand();
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("scale", "Resize Mode (Z)", event -> {
-            this.editorMode = ResizeMode.getInstance();
+            this.commandPrototype = new ResizeCommand();
+        }));
+
+        this.root.getChildren().add(GUIFactory.createButton("compose", "Compose Mode (?)", event -> {
+            this.commandPrototype = new ComposeCommand();
+        }));
+
+        this.root.getChildren().add(GUIFactory.createButton("caption", "Add a caption to a shape", event -> {
+            this.commandPrototype = new CaptionCommand();
         }));
 
         this.root.getChildren().add(GUIFactory.createButton("pipette", "Pipette", event -> {
-            this.editorMode = PipetteMode.getInstance();
+            this.commandPrototype = new PipetteCommand();
         }));
 
         this.colorPicker = GUIFactory.createColorPicker("Color Picker", null);
         this.root.getChildren().add(this.colorPicker);
 
+        this.root.getChildren().add(GUIFactory.createButton("save", "Save (CTRL+S)", event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Ssshape Files", "*.shp")
+            );
+
+            File output = fileChooser.showSaveDialog(this.getWindow());
+            if (output != null) {
+                saveCanvas(output.getPath());
+            }
+        }));
+
+        this.root.getChildren().add(GUIFactory.createButton("undo", "Undo (CTRL+Z)", event -> {
+            this.history.undo();
+        }));
+
+        this.root.getChildren().add(GUIFactory.createButton("redo", "Redo (CTRL+Y)", event -> {
+            this.history.redo();
+        }));
+
         Label positionLabel = new Label("");
         positionLabel.setTextFill(Color.WHITESMOKE);
-        
+
         this.canvas.addEventHandler(MouseEvent.ANY, event -> {
             positionLabel.setText(String.format("(%.0f, %.0f)", event.getX(), event.getY()));
         });
@@ -217,6 +272,28 @@ public class CanvasEditor extends Scene {
         this.root.setRightAnchor(positionLabel, 4.0);
 
         this.root.getChildren().add(positionLabel);
+    }
+
+    public void saveCanvas(String output_path) {
+        try {
+            trySaveCanvas(output_path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void trySaveCanvas(String output_path) throws IOException {
+        StringBuilder result = new StringBuilder();
+        ShapeSerializer serializer = new ShapeSerializer(result);
+        for (Shape shape : this.canvas.getShapes())
+            shape.accept(serializer);
+
+        // DEBUG
+        System.out.print(result.toString());
+
+        FileWriter output = new FileWriter(output_path);
+        output.write(result.toString());
+        output.close();
     }
 
 }
