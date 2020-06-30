@@ -2,13 +2,11 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
+import com.nhlstenden.designpatterns.graphics.ShapeVisitor;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Composition extends Shape {
@@ -56,11 +54,6 @@ public class Composition extends Shape {
         this.initializeBounds();
     }
 
-    public void drawCaption() {
-
-        //super.drawCaption()
-    }
-
     private Composition() {
         super(GroupDrawingStrategy.getInstance());
     }
@@ -83,9 +76,13 @@ public class Composition extends Shape {
                 max_y = position.getY() + shape.getHeight();
         }
 
-        this.setPosition(min_x, min_y);
-        this.setWidth(max_x - min_x);
-        this.setHeight(max_y - min_y);
+        super.setPosition(min_x, min_y);
+        super.setWidth(max_x - min_x);
+        super.setHeight(max_y - min_y);
+    }
+
+    public List<Shape> getShapes() {
+        return Collections.unmodifiableList(this.shapes);
     }
 
     @Override
@@ -97,6 +94,7 @@ public class Composition extends Shape {
 
     @Override
     public void setPosition(Point2D new_position) {
+        System.out.println(new_position);
         final Point2D displacement = new_position.subtract(this.getPosition());
         for (Shape shape : shapes)
             shape.setPosition(shape.getPosition().add(displacement));
@@ -120,6 +118,11 @@ public class Composition extends Shape {
             shape.setHeight(shape.getHeight() * scalar);
 
         super.setHeight(new_height);
+    }
+
+    @Override
+    public void accept(ShapeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.nhlstenden.designpatterns.graphics.shapes.Ellipse;
 import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
+import com.nhlstenden.designpatterns.io.ShapeSerializer;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
@@ -17,8 +18,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 
-import java.io.Console;
+import java.io.*;
+import java.nio.file.DirectoryIteratorException;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -72,7 +76,13 @@ public class CanvasEditor extends Scene {
     private Point2D previousMousePosition = new Point2D(0, 0);
     private Point2D currentMousePosition = new Point2D(0, 0);
 
-    public CanvasEditor() {
+    private static final CanvasEditor __instance__ = new CanvasEditor();
+
+    public static CanvasEditor getInstance(){
+        return __instance__;
+    }
+
+    private CanvasEditor() {
         super(new AnchorPane());
         this.root.setBackground(new Background(
                 new BackgroundFill(Color.rgb(47, 47, 47), null, null))
@@ -182,6 +192,8 @@ public class CanvasEditor extends Scene {
                     this.previousMousePosition = this.currentMousePosition;
                     this.currentMousePosition = new Point2D(event.getX(), event.getY());
 
+                    this.currentCommand.execute(this.editorContext);
+
                     // Register command in history.
                     this.history.register(currentCommand);
                     this.currentCommand = null;
@@ -214,6 +226,10 @@ public class CanvasEditor extends Scene {
             this.commandPrototype = new ResizeCommand();
         }));
 
+        this.root.getChildren().add(GUIFactory.createButton("compose", "Compose Mode (?)", event -> {
+            this.commandPrototype = new ComposeCommand();
+        }));
+
         this.root.getChildren().add(GUIFactory.createButton("caption", "Add a caption to a shape", event -> {
             this.commandPrototype = new CaptionCommand();
         }));
@@ -225,6 +241,18 @@ public class CanvasEditor extends Scene {
         this.colorPicker = GUIFactory.createColorPicker("Color Picker", null);
         this.root.getChildren().add(this.colorPicker);
 
+        this.root.getChildren().add(GUIFactory.createButton("save", "Save (CTRL+S)", event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(
+                    new FileChooser.ExtensionFilter("Ssshape Files", "*.shp")
+            );
+
+            File output = fileChooser.showSaveDialog(this.getWindow());
+            if (output != null) {
+                saveCanvas(output.getPath());
+            }
+        }));
+
         this.root.getChildren().add(GUIFactory.createButton("undo", "Undo (CTRL+Z)", event -> {
             this.history.undo();
         }));
@@ -235,7 +263,7 @@ public class CanvasEditor extends Scene {
 
         Label positionLabel = new Label("");
         positionLabel.setTextFill(Color.WHITESMOKE);
-        
+
         this.canvas.addEventHandler(MouseEvent.ANY, event -> {
             positionLabel.setText(String.format("(%.0f, %.0f)", event.getX(), event.getY()));
         });
@@ -244,6 +272,28 @@ public class CanvasEditor extends Scene {
         this.root.setRightAnchor(positionLabel, 4.0);
 
         this.root.getChildren().add(positionLabel);
+    }
+
+    public void saveCanvas(String output_path) {
+        try {
+            trySaveCanvas(output_path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void trySaveCanvas(String output_path) throws IOException {
+        StringBuilder result = new StringBuilder();
+        ShapeSerializer serializer = new ShapeSerializer(result);
+        for (Shape shape : this.canvas.getShapes())
+            shape.accept(serializer);
+
+        // DEBUG
+        System.out.print(result.toString());
+
+        FileWriter output = new FileWriter(output_path);
+        output.write(result.toString());
+        output.close();
     }
 
 }

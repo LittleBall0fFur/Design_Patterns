@@ -2,6 +2,7 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
+import com.nhlstenden.designpatterns.graphics.ShapeVisitor;
 import com.nhlstenden.designpatterns.gui.editor.CanvasEditor;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -74,6 +75,11 @@ public class Ellipse extends Shape {
                             + pow(distance.getY(), 2) / pow(this.getHeight()/2, 2);
 
         return discriminant <= 1;
+    }
+
+    @Override
+    public void accept(ShapeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

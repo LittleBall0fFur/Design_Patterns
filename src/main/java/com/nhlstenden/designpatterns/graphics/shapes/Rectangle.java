@@ -2,6 +2,7 @@ package com.nhlstenden.designpatterns.graphics.shapes;
 
 import com.nhlstenden.designpatterns.graphics.Drawable;
 import com.nhlstenden.designpatterns.graphics.DrawingStrategy;
+import com.nhlstenden.designpatterns.graphics.ShapeVisitor;
 import com.nhlstenden.designpatterns.gui.editor.CanvasEditor;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -58,7 +59,7 @@ public class Rectangle extends Shape {
         // calculate new y where caption should be placed
         y = y + (this.getHeight()/2) + padding;
         // call super.drawCaption with these parameters
-        super.drawCaption(context, new Point2D(x, y), color, text);
+        //super.drawCaption(context, new Point2D(x, y), color, text);
     }
 
     @Override
@@ -66,6 +67,11 @@ public class Rectangle extends Shape {
         return point.getX() >= this.getPosition().getX() && point.getX() < (this.getPosition().getX()+this.getWidth())
                &&
                point.getY() >= this.getPosition().getY() && point.getY() < (this.getPosition().getY()+this.getHeight());
+    }
+
+    @Override
+    public void accept(ShapeVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override
