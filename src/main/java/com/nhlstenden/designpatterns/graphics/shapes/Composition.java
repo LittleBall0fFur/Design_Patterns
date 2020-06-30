@@ -94,7 +94,6 @@ public class Composition extends Shape {
 
     @Override
     public void setPosition(Point2D new_position) {
-        System.out.println(new_position);
         final Point2D displacement = new_position.subtract(this.getPosition());
         for (Shape shape : shapes)
             shape.setPosition(shape.getPosition().add(displacement));
@@ -105,8 +104,10 @@ public class Composition extends Shape {
     @Override
     public void setWidth(double new_width) {
         final double scalar = new_width / this.getWidth();
-        for (Shape shape : shapes)
+        for (Shape shape : shapes) {
             shape.setWidth(shape.getWidth() * scalar);
+            shape.setPosition(this.getPosition().getX() + ((shape.getPosition().getX()-this.getPosition().getX()) * scalar), shape.getPosition().getY());
+        }
 
         super.setWidth(new_width);
     }
@@ -114,8 +115,10 @@ public class Composition extends Shape {
     @Override
     public void setHeight(double new_height) {
         final double scalar = new_height / this.getHeight();
-        for (Shape shape : shapes)
+        for (Shape shape : shapes) {
             shape.setHeight(shape.getHeight() * scalar);
+            shape.setPosition(shape.getPosition().getX(), this.getPosition().getY() + ((shape.getPosition().getY()-this.getPosition().getY())) * scalar);
+        }
 
         super.setHeight(new_height);
     }
