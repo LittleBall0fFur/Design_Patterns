@@ -7,10 +7,13 @@ import com.nhlstenden.designpatterns.graphics.shapes.Rectangle;
 import com.nhlstenden.designpatterns.graphics.shapes.Shape;
 import com.nhlstenden.designpatterns.gui.GUIFactory;
 import com.nhlstenden.designpatterns.io.ShapeSerializer;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+import javax.imageio.ImageIO;
 import java.io.*;
 import java.nio.file.DirectoryIteratorException;
 import java.util.Deque;
@@ -243,12 +247,17 @@ public class CanvasEditor extends Scene {
 
         this.root.getChildren().add(GUIFactory.createButton("save", "Save (CTRL+S)", event -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(
-                    new FileChooser.ExtensionFilter("Ssshape Files", "*.shp")
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Ssshape Files", "*.shp"),
+                    new FileChooser.ExtensionFilter("PNG", "*.png")
             );
 
             File output = fileChooser.showSaveDialog(this.getWindow());
-            if (output != null) {
+            if (output == null) return;
+
+            if (fileChooser.getSelectedExtensionFilter().getDescription() == "PNG") {
+                saveCanvasAsPNG(output.getPath());
+            } else {
                 saveCanvas(output.getPath());
             }
         }));
@@ -282,18 +291,31 @@ public class CanvasEditor extends Scene {
         }
     }
 
+    public void saveCanvasAsPNG(String output_path) {
+        try {
+            trySaveCanvasAsPNG(output_path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void trySaveCanvas(String output_path) throws IOException {
         StringBuilder result = new StringBuilder();
         ShapeSerializer serializer = new ShapeSerializer(result);
         for (Shape shape : this.canvas.getShapes())
             shape.accept(serializer);
 
-        // DEBUG
-        System.out.print(result.toString());
-
         FileWriter output = new FileWriter(output_path);
         output.write(result.toString());
         output.close();
+    }
+
+    private void trySaveCanvasAsPNG(String output_path) throws IOException {
+        WritableImage snapshot = new WritableImage((int) this.canvas.getWidth(), (int) this.canvas.getHeight());
+        this.canvas.snapshot(new SnapshotParameters(), snapshot);
+
+        File output = new File(output_path);
+        ImageIO.write(SwingFXUtils.fromFXImage(snapshot, null), "png", output);
     }
 
 }
