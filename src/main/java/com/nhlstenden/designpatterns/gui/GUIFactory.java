@@ -60,7 +60,7 @@ public abstract class GUIFactory {
     }
 
     public static ColorPicker createColorPicker(String tooltip, EventHandler<ActionEvent> actionEventHandler) {
-        ColorPicker colorPicker = new ColorPicker();
+        ColorPicker colorPicker = new ColorPicker(Color.BLACK);
         offset += 24;
         colorPicker.setTranslateY(offset);
         colorPicker.setOnAction(actionEventHandler);
